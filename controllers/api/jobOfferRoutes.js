@@ -1,7 +1,8 @@
 const router = require('express').Router();
+const withAuth = require('../../utils/auth');
 const { JobOffer, Service, User } = require('../../models');
 
-router.get('/', async (req, res) => {
+router.get('/', withAuth, async (req, res) => {
     try {
         const jobOfferData = JobOffer.findAll(
             {
@@ -22,7 +23,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:userId', async (req, res) => {
+router.get('/:userId', withAuth, async (req, res) => {
     try {
         const jobOfferData = JobOffer.findAll(
             {
@@ -46,7 +47,7 @@ router.get('/:userId', async (req, res) => {
     }
 });
 
-router.post('/userId', async (req, res) => {
+router.post('/:userId', withAuth, async (req, res) => {
     try {
         const jobOfferData = await JobOffer.create(
             {
@@ -63,7 +64,7 @@ router.post('/userId', async (req, res) => {
     }
 });
 
-router.put('/jobOfferId', async (req, res) => {
+router.put('/:jobOfferId', withAuth, async (req, res) => {
     try {
         const jobOfferData = await JobOffer.update(
             {
@@ -73,7 +74,7 @@ router.put('/jobOfferId', async (req, res) => {
             },
             {
                 where: {
-                    user_id: req.params.userId,
+                    user_id: req.params.jobOfferId,
                 }
             }
         );
@@ -83,7 +84,7 @@ router.put('/jobOfferId', async (req, res) => {
     }
 });
 
-router.delete('/jobOfferId', async (req, res) => {
+router.delete('/:jobOfferId', withAuth, async (req, res) => {
     try {
         const jobOfferData = await JobOffer.destroy(
             {

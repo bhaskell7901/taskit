@@ -1,7 +1,8 @@
 const router = require('express').Router();
+const withAuth = require('../../utils/auth');
 const { ServiceRange } = require('../../models');
 
-router.get('/:providerId', async (req, res) => {
+router.get('/:providerId', withAuth, async (req, res) => {
     try {
         const serviceRangeData = await ServiceRange.findOne(
             { 
@@ -21,7 +22,7 @@ router.get('/:providerId', async (req, res) => {
     }
 });
 
-router.post('/:providerId', async (req, res) => {
+router.post('/:providerId', withAuth, async (req, res) => {
     try {
         const serviceRangeData = await ServiceRange.create(
             { 
@@ -35,7 +36,7 @@ router.post('/:providerId', async (req, res) => {
     }
 });
 
-router.put('/:providerId', async (req, res) => {
+router.put('/:providerId', withAuth, async (req, res) => {
     try {
         const serviceRangeData = await ServiceRange.update(
             {
@@ -53,7 +54,7 @@ router.put('/:providerId', async (req, res) => {
     }
 });
 
-router.delete('/:providerId', async (req, res) => {
+router.delete('/:providerId', withAuth, async (req, res) => {
     try {
         const serviceRangeData = await ServiceRange.destroy(
             {
@@ -66,3 +67,5 @@ router.delete('/:providerId', async (req, res) => {
         res.status(500).json(err);
     }
 });
+
+module.exports = router;

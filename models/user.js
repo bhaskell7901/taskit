@@ -1,7 +1,7 @@
 const { Model, DataTypes } = require ('sequelize');
 const bcrypt = require ('bcrypt');
 const sequelize = require ('../config/connection');
-const { Hooks } = require('sequelize/types/hooks');
+
 
 class User extends Model{
     checkPassword(loginPw) {
@@ -15,29 +15,28 @@ User.init(
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true,
-            autoIncrement: true,
+            autoIncrement: true
         },
         first_name:{
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true
         },
         last_name: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         email: {
             type: DataTypes.STRING,
             allowNull: false,
             validate : {
-                isEmail: true,
+                isEmail: true
             },
         },
         password: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                minLength: [8],
-                maxLength: [32], 
+                len: [8, 32]
             },
         },
         view_preference: {

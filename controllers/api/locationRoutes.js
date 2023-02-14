@@ -1,7 +1,8 @@
 const router = require('express').Router();
+const withAuth = require('../../utils/auth');
 const { Location, User } = require('../../models');
 
-router.get('/', async (req, res) => {
+router.get('/', withAuth, async (req, res) => {
     try {
         const locationData = findAll(
             {
@@ -21,7 +22,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', withAuth, async (req, res) => {
     try {
         const locationData = findByPk(
             {
@@ -40,7 +41,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', withAuth, async (req, res) => {
     try {
         const locationData = await Location.create(
             {
@@ -59,7 +60,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.put('/:id', async (res, req) => {
+router.put('/:id', withAuth, async (res, req) => {
     try {
         const locationData = await Location.update({
             id: req.params.id,
@@ -78,7 +79,7 @@ router.put('/:id', async (res, req) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', withAuth, async (req, res) => {
     try {
         const locationData = Location.delete({
             where: {

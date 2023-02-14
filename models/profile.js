@@ -20,11 +20,11 @@ Profile.init(
             allowNull: true
         },
         view_type: {
-            type: DataType.STRING,
+            type: DataTypes.STRING,
             allowNull: false
         },
         bio: {
-            type: DataType.STRING,
+            type: DataTypes.STRING,
             allowNull: true
         }
     },

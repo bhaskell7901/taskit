@@ -1,0 +1,9 @@
+{{#each jobOfferings}}
+  <div class="job-offering">
+    <h3>{{service_name}}</h3>
+    <p>{{job_description}}</p>
+    <p>Service Provider: {{service_provider_id}}</p>
+  </div>
+{{/each}}
+
+{{!-- To use partial{{> jobOfferings jobOfferings=jobs}} --}}

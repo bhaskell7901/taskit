@@ -15,7 +15,7 @@ JobOffer.init(
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        service_provider_id: {
+        service_id: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
@@ -24,7 +24,7 @@ JobOffer.init(
             allowNull: false
         },
         offer_price: {
-            type: DataTypes.FLOAT,
+            type: DataTypes.DECIMAL(10,4),
             allowNull: false
         }
     }, 

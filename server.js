@@ -1,35 +1,42 @@
+// Exress requirements
 const express = require('express');
-const exphbs = require('express-handlebars');
-const mysql2 = require('mysql2');
-const Sequelize = require('sequelize');
-const dotenv = require('dotenv');
-const bcrypt = require('bcrypt');
 const session = require('express-session');
-const sequelizeSession = require('connect-session-sequelize');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
-// Load environment from .env file
-dotenv.config();
+const path = require('path');
+const routes = require('./controllers');
+const sequelize = require('./config/connection');
+const exphbs = require('express-handlebars');
+const helpers = require('./utils/helpers');
 
 const app = express();
+const PORT = process.env.PORT || 3001;
 
-app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
+const hdbrs = exphbs.create({ helpers });
+
+const currentSession = {
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    SameSite: 'none',
+    store: new SequelizeStore({
+        db: sequelize
+    })
+};
+
+app.use(session(currentSession));
+
+app.engine('handlebars', hdbrs.engine);
 app.set('view engine', 'handlebars');
 
-// Initialize Sequelize
-const sequelize = require('./config/connection');
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Set up Express session
-const SequelizeStore = sequelizeSession(session.Store);
-const sessionStore = new SequelizeStore({ db: sequelize });
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  store: sessionStore
-}));
+app.use(routes);
 
-const port = process.env.PORT || 3001;
-
-app.listen(port, () => {
-    console.log(`listening on port ${port}`);
+sequelize.sync({ force: false }).then( () => {
+    app.listen(PORT, () => {
+        console.log(`listening on http://localhost:${PORT}`);
+    });
 });

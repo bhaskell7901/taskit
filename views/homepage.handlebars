@@ -1,0 +1,12 @@
+{{#each services}}
+          <button class="service-button" data-service-id="{{id}}">{{service_name}}</button>
+        {{/each}}
+{{#each jobs}}
+          <a href="/jobs/{{id}}">
+            <div class="job-card">
+              <h3>{{service_name}}</h3>
+              <p>{{Job_description}}</p>
+              <p>Service Provider: {{service_provider_id}}</p>
+            </div>
+          </a>
+{{/each}}

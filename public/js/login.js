@@ -10,8 +10,11 @@ const loginFormHandler = async (event) => {
             body: JSON.stringify({ email, password }),
             headers: { 'Content-Type': 'application/json' },
             });
-        console.log(response);
+            console.log(response);
         if (response.ok) {
+            const userData = await response.json();
+            localStorage.setItem('user', JSON.stringify(userData));
+            console.log(userData)
             document.location.replace('/');
         } else {
             alert('Failed to log in.');
